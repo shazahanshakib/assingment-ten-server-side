@@ -54,17 +54,17 @@ async function run() {
       const result = await visaCollection.findOne(query);
       res.send(result)
   })
-  app.get("/visaapply", async(req, res)=>{
-    const {searchParams}= req.query;
-        console.log(searchParams)
-        let option= {};
-        if (searchParams) {
-          option={countryName: {$regex: searchParams, $options: "i"}};
-        }
-    const cursor= visaApplyCollection.find(option)
-    const result= await cursor.toArray()
-    res.send(result)
-  })
+  // app.get("/visaapply", async(req, res)=>{
+  //   const {searchParams}= req.query;
+  //       console.log(searchParams)
+  //       let option= {};
+  //       if (searchParams) {
+  //         option={countryName: {$regex: searchParams, $options: "i"}};
+  //       }
+  //   const cursor= visaApplyCollection.find(option)
+  //   const result= await cursor.toArray()
+  //   res.send(result)
+  // })
 
     app.post('/allvisa', async(req, res)=>{
         const newVisa= req.body
