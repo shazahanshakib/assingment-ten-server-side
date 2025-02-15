@@ -31,7 +31,13 @@ async function run() {
     const visaApplyCollection = database.collection("allapply")
 
     app.get('/allvisa', async(req, res)=>{
-        const cursor = visaCollection.find();
+        const {searchParams}= req.query;
+        console.log(searchParams)
+        let option= {};
+        if (searchParams) {
+          option={visaType: {$regex: searchParams, $options: "i"}};
+        }
+        const cursor = visaCollection.find(option);
         const result = await cursor.toArray()
         res.send(result)
     })
@@ -49,7 +55,13 @@ async function run() {
       res.send(result)
   })
   app.get("/visaapply", async(req, res)=>{
-    const cursor= visaApplyCollection.find()
+    const {searchParams}= req.query;
+        console.log(searchParams)
+        let option= {};
+        if (searchParams) {
+          option={countryName: {$regex: searchParams, $options: "i"}};
+        }
+    const cursor= visaApplyCollection.find(option)
     const result= await cursor.toArray()
     res.send(result)
   })
@@ -92,18 +104,18 @@ async function run() {
     })
     // const newVisa= {countryName, countryImage, visaType, age, fee, description, Validity, appMethod, processingTime, requiredDocuments, userEmail}
 
-    app.delete('/visaapply/:id', async(req, res)=>{
-      const id = req.params.id
-      const query = {_id: new ObjectId(id)}
-      const result = await visaApplyCollection.deleteOne(query)
-      res.send(result)
-    })
-    app.delete('/allvisa/:id', async(req, res)=>{
-      const id = req.params.id
-      const query = {_id: new ObjectId(id)}
-      const result = await visaCollection.deleteOne(query)
-      res.send(result)
-    })
+    // app.delete('/visaapply/:id', async(req, res)=>{
+    //   const id = req.params.id
+    //   const query = {_id: new ObjectId(id)}
+    //   const result = await visaApplyCollection.deleteOne(query)
+    //   res.send(result)
+    // })
+    // app.delete('/allvisa/:id', async(req, res)=>{
+    //   const id = req.params.id
+    //   const query = {_id: new ObjectId(id)}
+    //   const result = await visaCollection.deleteOne(query)
+    //   res.send(result)
+    // })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
