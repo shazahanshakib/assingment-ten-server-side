@@ -11,7 +11,7 @@ app.use(express.json())
 
 
 
-const uri = "mongodb+srv://user-mange:5qbN1lfrGWUIjPuh@cluster0.x6gg2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = `mongodb+srv://${process.env.DB_User}:${process.env.DB_Pass}@cluster0.x6gg2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
