@@ -1,7 +1,7 @@
+require('dotenv').config()
 const express = require('express')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors')
-require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 5000
 
@@ -25,14 +25,14 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     const database = client.db("allvisaDB");
     const visaCollection = database.collection("allvisa");
     const visaApplyCollection = database.collection("allapply")
 
     app.get('/allvisa', async(req, res)=>{
         const {searchParams}= req.query;
-        console.log(searchParams)
+        // console.log(searchParams)
         let option= {};
         if (searchParams) {
           option={visaType: {$regex: searchParams, $options: "i"}};
@@ -49,14 +49,14 @@ async function run() {
   })
     app.get("/allvisa/:id", async(req, res)=>{
       const id =req.params.id
-      console.log(id)
+      // console.log(id)
       const query = {_id: new ObjectId(id)}
       const result = await visaCollection.findOne(query);
       res.send(result)
   })
   app.get("/visaapply", async(req, res)=>{
-    const {searchParams}= req.query;
-        console.log(searchParams)
+    const searchParams = req.query.searchParams;
+        // console.log(searchParams)
         let option= {};
         if (searchParams) {
           option={countryName: {$regex: searchParams, $options: "i"}};
@@ -78,7 +78,7 @@ async function run() {
       const newApply = req.body
       const result = await visaApplyCollection.insertOne(newApply)
       res.send(result)
-      console.log(newApply)
+      // console.log(newApply)
     })
 
     app.put('/allvisa/:id', async(req, res)=>{
@@ -94,9 +94,9 @@ async function run() {
           age: updateVisa.age,
           fee: updateVisa.fee,
           description: updateVisa.description,
-          Validity: updateVisa. Validity,
-          appMethod: updateVisa. appMethod,
-          processingTime: updateVisa. processingTime
+          Validity: updateVisa.Validity,
+          appMethod: updateVisa.appMethod,
+          processingTime: updateVisa.processingTime
         }
       }
       const result = await visaCollection.updateOne(filter, upVisa, options);
@@ -118,8 +118,8 @@ async function run() {
     })
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
